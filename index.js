@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const {dbConnection} = require('./database/congig');
 
+
 // crear servidos express
 const app = express();
 
@@ -13,16 +14,18 @@ dbConnection();
 // Configurar cors
 app.use(cors()); 
 
-//bkpmgFEht34R3hDy
-//mongo_db-curso 
+//lectura del body
+app.use( express.json() );
+
+//clave NMQm45fTDx7YcYhM
+
+
 
 //rutas
-app.get( '/', (req,res)=>{
-    res.json( {
-        ok:true,
-        msh:'hola mundo'
-    })
-});
+app.use('/api/usuario',require('./routes/usuarios'))
+app.use('/api/login',require('./routes/auth'))
+
+
 
 
 
