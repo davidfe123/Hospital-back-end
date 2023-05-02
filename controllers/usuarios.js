@@ -5,11 +5,25 @@ const {generarJWT} = require('../helpers/jwt');
 
 const getUsuarios = async (req,res)=>{
     
-    const usuarios = await Usuario.find({},'nombre email password');
+    // paginacion
+    const desde = Number(req.query.desde) || 0;
 
+    const [usuarios,total] = await Promise.all([ //esto lo hacemos para que nos de respuest aasta 
+                                                 //que las dos promesas se respondan 
+        Usuario
+            .find({},'nombre email password img')
+            .skip(desde)
+            .limit(5),
+
+        Usuario.countDocuments() //saber numeros de resgistros en la bd
+    ]);
+
+    
+    console.log(desde)
     res.json( {
         ok:true,
-        usuarios
+        usuarios,
+        total
     })
 }
 
