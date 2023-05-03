@@ -14,6 +14,9 @@ dbConnection();
 // Configurar cors
 app.use(cors()); 
 
+// carpeta publica
+app.use(express.static('public'));
+
 //lectura del body
 app.use( express.json() );
 
