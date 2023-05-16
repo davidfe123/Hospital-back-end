@@ -19,6 +19,7 @@
     "google-auth-library": "^8.8.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
+    "sweetalert2": "^11.7.5",
     "uuid": "^9.0.0"
   }
 }

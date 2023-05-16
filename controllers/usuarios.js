@@ -11,7 +11,7 @@ const getUsuarios = async (req,res)=>{
     const [usuarios,total] = await Promise.all([ //esto lo hacemos para que nos de respuest aasta 
                                                  //que las dos promesas se respondan 
         Usuario
-            .find({},'nombre email password img')
+            .find({},'nombre email img google role')
             .skip(desde)
             .limit(5),
 
@@ -81,7 +81,7 @@ const actualizarUsuarios = async (req,res = response)=>{
                 msg:' usuario no exisite '
             })
         }
-        
+
         // actualizaciones
         const {password,google,email,...campos} = req.body;
         
@@ -95,7 +95,15 @@ const actualizarUsuarios = async (req,res = response)=>{
                 });
             }
         }
-        campos.email = email;
+        if(!usuariodb.google){
+            campos.email = email;
+        }else if( usuariodb.email !== email ){
+            return res.status(400).json({
+                ok: false,
+                msg: "usuarios de google no pueden cambiar el correo"
+            });
+        }
+
         const usuariActualizado = await Usuario.findByIdAndUpdate(uid,campos, {new: true} );
 
         res.json({
@@ -129,6 +137,7 @@ const borrarUsuario = async (req,res = response)=>{
             ok:true,
             msg:"usuario eliminado"
         })
+        
     }catch(error){
         console.log(error);
         res.status(500).json({

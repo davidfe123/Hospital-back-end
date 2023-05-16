@@ -25,7 +25,7 @@ router.put('/:id',
     [   validarJWT,
         check('nombre', 'el nombre es obligatorio').not().isEmpty(),
         check('email','el email es obligatorio').isEmail(),
-        check('role','el rol es obligatorio').isEmpty(),
+        check('role','el rol es obligatorio').not().isEmpty(),
         validarCampos
     ],
     actualizarUsuarios

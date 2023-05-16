@@ -23,7 +23,6 @@ app.use( express.json() );
 //clave NMQm45fTDx7YcYhM
 
 
-
 //rutas
 app.use('/api/usuario',require('./routes/usuarios'));
 app.use('/api/hospitales',require('./routes/hospitales'));
