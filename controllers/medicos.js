@@ -1,6 +1,43 @@
 const {response} = require('express');
 const Medico = require('../models/medico');
 
+const getMedico = async (req,res)=>{
+
+    try {
+        const idM = req.params.id;
+        console.log(idM)
+        if(!idM){
+            res.status(500).json({
+                ok:false,
+                msg:'no hay ningun id'
+            })
+        }
+        const medicodb = await Medico.findById(idM)
+                                                    .populate('usuario','nombre img')
+                                                    .populate('hospitales','nombre');
+
+        if(!medicodb){
+            res.status(500).json({
+                ok:false,
+                msg:'no existe id de medico'
+            })
+        }
+
+        res.json({
+            ok:true,
+            medicodb
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:' error contacte con el dev'
+        })
+    }
+
+}
+
+
 const getMedicos = async (req,res = response)=>{
     
     try {
@@ -21,7 +58,7 @@ const getMedicos = async (req,res = response)=>{
     }
 }
 
-const getMedico = async (req,res = response)=>{
+const crearMedico = async (req,res = response)=>{
     
     const uid = req.uid;
     const medico = new Medico({
@@ -105,6 +142,7 @@ const eliminarMedico = async (req,res = response)=>{
 
 module.exports = {
     getMedicos,
+    crearMedico,
     getMedico,
     actualizarMedico,
     eliminarMedico

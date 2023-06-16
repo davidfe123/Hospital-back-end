@@ -75,6 +75,7 @@ const actualizarUsuarios = async (req,res = response)=>{
     const uid = req.params.id;
     try{
         const usuariodb = await Usuario.findById(uid);
+        
         if(!usuariodb){
             return res.status(404).json({
                 ok:false,
@@ -121,8 +122,16 @@ const actualizarUsuarios = async (req,res = response)=>{
 
 const borrarUsuario = async (req,res = response)=>{
     const uid = req.params.id;
+    const id = req.body.id
     try{
-        
+
+        if(uid === id){
+            return res.status(404).json({
+                ok:false,
+                msg:"no se puede borrar a si mismo"
+            });
+        }
+
         const usuariodb = await Usuario.findById(uid);
         if(!usuariodb){
             return res.status(404).json({

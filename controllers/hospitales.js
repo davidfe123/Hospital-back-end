@@ -2,9 +2,14 @@ const {response} = require('express');
 const Hospital = require('../models/hospitales')
 
 const getHospitales = async (req,res=response)=>{
+
+
+    const desde = Number(req.query.desde) || 0;
     
     const hospitaledb =  await Hospital.find()
                                             .populate('usuario','nombre')
+                                            .skip(desde) // desde donde va a mostrar
+                                            .limit(5) // los datos que va a mostrar
     res.json({
         ok:true,
         hospitaledb
