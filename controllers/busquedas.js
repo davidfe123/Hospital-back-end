@@ -12,13 +12,11 @@ const getTodo = async (req,res = response)=>{
         const busqueda =  req.params.busqueda;
         const regex = new RegExp(busqueda,'i'); // esto es para hacer la busqueda insencible
 
-        const {usuarios,medicos,hospitaless} = await Promise.all([
+        const [usuarios,medicos,hospitaless] = await Promise.all([
             Usuario.find({nombre:regex}),
             Medicos.find({nombre:regex}),
             hospitales.find({nombre:regex})
         ]);
-
-
 
         res.json({
             ok:true,
@@ -26,6 +24,7 @@ const getTodo = async (req,res = response)=>{
             medicos,
             hospitaless
         })
+
     } catch (error) {
         res.status(500).json({
             ok:false,
